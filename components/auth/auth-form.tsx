@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,51 +12,29 @@ export default function AuthForm() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
   const { toast } = useToast()
 
   const handleSignUp = async () => {
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
+
+    // Placeholder signup logic (can be replaced with your own API later)
+    toast({
+      title: "Sign Up Placeholder",
+      description: "Sign-up logic not implemented.",
     })
 
-    if (error) {
-      toast({
-        title: "Sign Up Failed",
-        description: error.message,
-        variant: "destructive",
-      })
-    } else {
-      toast({
-        title: "Sign Up Successful",
-        description: "Check your email to confirm your registration.",
-      })
-      router.push("/auth/verify")
-    }
     setLoading(false)
   }
 
   const handleSignIn = async () => {
     setLoading(true)
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+
+    // Placeholder sign-in logic (can be replaced with your own API later)
+    toast({
+      title: "Sign In Placeholder",
+      description: "Sign-in logic not implemented.",
     })
 
-    if (error) {
-      toast({
-        title: "Sign In Failed",
-        description: error.message,
-        variant: "destructive",
-      })
-    } else {
-      router.push("/dashboard")
-    }
     setLoading(false)
   }
 
