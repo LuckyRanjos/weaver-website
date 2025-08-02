@@ -1,45 +1,41 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import type { Tables } from "@/lib/supabase/database.types"
 import { format } from "date-fns"
 
-type SmsMessage = Tables<"sms_messages">
+type SmsMessage = {
+  id: string
+  phone_number: string
+  message_body: string
+  message_type: "inbound" | "outbound"
+  created_at: string
+}
 
 export default function SmsActivity() {
-  const supabase = createClient()
   const [smsMessages, setSmsMessages] = useState<SmsMessage[]>([])
   const [loading, setLoading] = useState(true)
 
-  const fetchSmsMessages = async () => {
-    setLoading(true)
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user) {
-      setLoading(false)
-      return
-    }
-
-    const { data, error } = await supabase
-      .from("sms_messages")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(10) // Fetch last 10 messages
-
-    if (error) {
-      console.error("Error fetching SMS messages:", error)
-    } else {
-      setSmsMessages(data || [])
-    }
-    setLoading(false)
-  }
-
   useEffect(() => {
-    fetchSmsMessages()
+    // You can replace this with your own API or local logic
+    const mockMessages: SmsMessage[] = [
+      {
+        id: "1",
+        phone_number: "+254700123456",
+        message_body: "Hello, how much does it cost?",
+        message_type: "inbound",
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: "2",
+        phone_number: "+254711223344",
+        message_body: "We’ll get back to you shortly!",
+        message_type: "outbound",
+        created_at: new Date(Date.now() - 60000 * 5).toISOString(),
+      },
+    ]
+    setSmsMessages(mockMessages)
+    setLoading(false)
   }, [])
 
   if (loading) {
@@ -62,7 +58,9 @@ export default function SmsActivity() {
                   <span className="font-medium">
                     {message.message_type === "outbound" ? "Sent to" : "Received from"}: {message.phone_number}
                   </span>
-                  <span className="text-xs text-gray-500">{format(new Date(message.created_at), "MMM dd, HH:mm")}</span>
+                  <span className="text-xs text-gray-500">
+                    {format(new Date(message.created_at), "MMM dd, HH:mm")}
+                  </span>
                 </div>
                 <p className="text-gray-700 mt-1 text-sm">{message.message_body}</p>
               </div>
