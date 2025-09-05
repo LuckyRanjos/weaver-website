@@ -113,6 +113,16 @@ export default function PrivacyPolicyPage() {
           </section>
         </div>
       </main>
+      
+    {/* 👇 Footer added here */}
+      <footer className="bg-gray-100 border-t mt-8">
+        <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-600 text-sm">
+          You can reach us at:{" "}
+          <a href="tel:+254748834249" className="text-blue-600 hover:underline">+254 748 834 249</a> /{" "}
+          <a href="tel:+254795575800" className="text-blue-600 hover:underline">+254 795 575 800</a> or{" "}
+          <a href="mailto:kenchege67@gmail.com" className="text-blue-600 hover:underline">kenchege67@gmail.com</a>
+        </div>
+      </footer>
     </div>
   )
 }
